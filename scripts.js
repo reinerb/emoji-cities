@@ -5,7 +5,7 @@ const CELL_SIZE = '30px';
 
 // Constants for probability of weather
 const PROB_MIN = 0.3;
-const PROB_MAX = 0.7;
+const PROB_MAX = 0.6;
 
 // Lists of emojis for each type of city component
 const WEATHER_TYPES = [
