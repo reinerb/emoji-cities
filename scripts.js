@@ -1,7 +1,7 @@
 // Constants for the size of the city
 const CITY_WIDTH = 10;
 const SKY_HEIGHT = 4;
-const CELL_SIZE = '20px';
+const CELL_SIZE = '30px';
 
 // Lists of emojis for each type of city component
 const BUILDINGS = []
