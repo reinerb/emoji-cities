@@ -90,8 +90,11 @@ html {
 
 body {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 #city-grid {
@@ -99,6 +102,7 @@ body {
   grid-template-rows: repeat(var(--city-height), var(--cell-size));
   grid-template-columns: repeat(var(--city-width), var(--cell-size));
   gap: 5px;
+  font-size: var(--cell-size);
 }
 
 #city-grid .cell {

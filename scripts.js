@@ -1,7 +1,11 @@
 // Constants for the size of the city
 const CITY_WIDTH = 10;
-const CITY_HEIGHT = 4;
+const CITY_HEIGHT = 5;
 const CELL_SIZE = '30px';
+
+// Constants for probability of weather
+const PROB_MIN = 0.3;
+const PROB_MAX = 0.7;
 
 // Lists of emojis for each type of city component
 const WEATHER_TYPES = [
@@ -9,13 +13,13 @@ const WEATHER_TYPES = [
   'raining',
   'cloudy',
   'snowing',
-  'storming',
+  'stormy',
   'night',
 ];
 const BUILDINGS = [
   0x1f3df, 0x1f3db, 0x1f3d7, 0x1f3d8, 0x1f3e0, 0x1f3e1, 0x1f3e2, 0x1f3e3,
   0x1f3e4, 0x1f3e5, 0x1f3e6, 0x1f3e8, 0x1f3e8, 0x1f3ea, 0x1f3eb, 0x1f3ec,
-  0x1f3ed, 0x1f3492, 0x26ea, 0x1f54c, 0x1f3d9,
+  0x1f3ed, 0x26ea, 0x1f54c, 0x1f3d9,
 ];
 const WEATHER = {
   clear: [0x2601],
@@ -34,37 +38,60 @@ const SUN_MOON = {
   raining: [0x1f326, 0x2601, 0x26c5, 0x1f325, 0x1f327],
   cloudy: [0x1f324, 0x1f325, 0x26c5, 0x2601],
   snowing: [0x2601, 0x26c5, 0x1f328, 0x1f325],
-  storming: [0x2601, 0x1f326, 0x26c8, 0x1f329],
+  stormy: [0x2601, 0x1f326, 0x26c8, 0x1f329],
 };
 
-// Select the city grid
+// Select dynamic components
 const cityGrid = document.querySelector('#city-grid');
+const todaysWeather = document.querySelector('#todays-weather');
 
 // Set CSS custom properties for the city grid
 cityGrid.style.cssText += `--city-width: ${CITY_WIDTH}; --city-height: ${CITY_HEIGHT}; --cell-size: ${CELL_SIZE}`;
 
+// Function to generate a random decimal number
+const randomDecimal = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
+
+// Function to select a random element from a list
+const randomElement = (array) => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
 // Randomy select a weather type
-const todaysWeather =
+const whatWeather =
   WEATHER_TYPES[Math.floor(Math.random() * WEATHER_TYPES.length)];
-console.log(`Today's weather is ${todaysWeather}`);
+todaysWeather.innerText = `It is ${whatWeather} right now.`;
+
+// Determine the probability of a cell having weather
+const weatherProb =
+  todaysWeather === 'clear'
+    ? randomDecimal(PROB_MIN, PROB_MAX) / 3
+    : randomDecimal(PROB_MIN, PROB_MAX);
 
 // Add top row to city grid
 for (let i = 0; i < CITY_WIDTH; i++) {
   let cell = document.createElement('div');
   cell.classList.add('cell');
   if (i === 0) {
-    const weatherList = SUN_MOON[todaysWeather];
-    const weather = weatherList[Math.floor(Math.random() * weatherList.length)];
-    console.log(String.fromCodePoint(weather));
+    const weather = randomElement(SUN_MOON[whatWeather]);
+    console.log(weather);
     cell.innerText = String.fromCodePoint(weather);
   }
   cityGrid.appendChild(cell);
 }
 
-// Add cells to the city grid
-for (let i = 1; i < (CITY_WIDTH - 1) * CITY_HEIGHT; i++) {
+// Add cells to the sky
+for (let i = 0; i < (CITY_HEIGHT - 2) * CITY_WIDTH; i++) {
   let cell = document.createElement('div');
   cell.classList.add('cell');
+  console.log(`Making cell ${i}`);
+
+  // Randomly add weather
+  let prob = randomDecimal(0, 1);
+  if (prob < weatherProb) {
+    cell.innerText = String.fromCodePoint(randomElement(WEATHER[whatWeather]));
+  }
 
   cityGrid.appendChild(cell);
 }
@@ -73,6 +100,7 @@ for (let i = 1; i < (CITY_WIDTH - 1) * CITY_HEIGHT; i++) {
 for (let i = 0; i < CITY_WIDTH; i++) {
   let cell = document.createElement('div');
   cell.classList.add('cell');
+  cell.innerText = String.fromCodePoint(randomElement(BUILDINGS));
 
   cityGrid.appendChild(cell);
 }
