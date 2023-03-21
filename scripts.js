@@ -25,8 +25,10 @@ const SUN_MOON = {
 // Select the city grid
 const cityGrid = document.querySelector('#city-grid');
 
+// Set CSS custom properties for the city grid
 cityGrid.style.cssText += `--city-width: ${CITY_WIDTH}; --city-height: ${CITY_HEIGHT}; --cell-size: ${CELL_SIZE}`
 
+// Add cells to the city grid
 for (let i = 0; i < CITY_WIDTH * CITY_HEIGHT; i++) {
     let cell = document.createElement('div');
     cell.classList.add('cell');
