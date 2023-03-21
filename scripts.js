@@ -104,3 +104,6 @@ for (let i = 0; i < CITY_WIDTH; i++) {
 
   cityGrid.appendChild(cell);
 }
+
+// Allow twemoji to parse the document
+twemoji.parse(document.body);
